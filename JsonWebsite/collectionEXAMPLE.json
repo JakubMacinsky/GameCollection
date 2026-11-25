@@ -1,0 +1,37 @@
+{
+  "id": 1,
+  "username": "Artur",
+  "library": {
+    "cards": [
+      {
+        "game": {
+          "title": "Minecraft",
+          "releaseDate": "2011-11-18",
+          "genre": "Sandbox"
+        },
+        "copies": [
+          {"console": "PC", "copyType": "Digital"},
+          {"console": "PS5", "copyType": "Physical"}
+        ],
+        "rating": 9.99,
+        "review": "Great game",
+        "notes": "Played with friends",
+        "playedDate": "2026-11-20"
+      },
+      {
+        "game": {
+          "title": "Terraria",
+          "releaseDate": "2011-05-16",
+          "genre": "Adventure"
+        },
+        "copies": [
+          {"console": "PC", "copyType": "Digital"}
+        ],
+        "rating": 9,
+        "review": null,
+        "notes": null,
+        "playedDate": null
+      }
+    ]
+  }
+}

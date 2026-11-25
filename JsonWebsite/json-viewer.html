@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pidar Game Collection</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid gray;
+            padding: 10px;
+            text-align: left;
+            white-space: pre-line;
+        }
+
+        th {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Pidar Game Collection</h1>
+
+    <input type="file" id="jsonFile" accept=".json" onchange="loadJSON()">
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Title</th>
+                <th>Release Date</th>
+                <th>Genre</th>
+                <th>Console</th>
+                <th>Copy Type</th>
+                <th>Rating</th>
+                <th>Review</th>
+                <th>Notes</th>
+                <th>Played Date</th>
+            </tr>
+        </thead>
+
+        <tbody id="gameRows"></tbody>
+    </table>
+
+    <script>
+
+        // Read the selected JSON file
+        async function loadJSON() {
+            const file = document.getElementById("jsonFile").files[0];
+
+            if (!file) {
+                return;
+            }
+
+            const text = await file.text();
+            const data = JSON.parse(text);
+
+            displayGames(data);
+        }
+
+        // Display games in the table
+        function displayGames(data) {
+            const table = document.getElementById("gameRows");
+            table.textContent = "";
+
+            // Convert a single collector into an array
+            let collectors = data;
+
+            if (!Array.isArray(data)) {
+                collectors = [data];
+            }
+
+            // Go through all collectors
+            for (const collector of collectors) {
+
+                // Go through all games
+                for (const card of collector.library.cards) {
+                    const game = card.game;
+
+                    const consoles = [];
+                    const copyTypes = [];
+
+                    // Get consoles and copy types
+                    for (const copy of card.copies) {
+                        consoles.push(copy.console);
+                        copyTypes.push(copy.copyType);
+                    }
+
+                    // Create a new row
+                    const row = table.insertRow();
+
+                    // Display variables
+                    addCell(row, collector.id);
+                    addCell(row, collector.username);
+                    addCell(row, game.title);
+                    addCell(row, game.releaseDate);
+                    addCell(row, game.genre);
+                    addCell(row, consoles.join("\n"));
+                    addCell(row, copyTypes.join("\n"));
+                    addCell(row, card.rating);
+                    addCell(row, card.review);
+                    addCell(row, card.notes);
+                    addCell(row, card.playedDate);
+                }
+            }
+        }
+
+        // Create a cell with a value
+        function addCell(row, value) {
+            const cell = row.insertCell();
+
+            if (value === null || value === undefined) {
+                cell.textContent = "-";
+            } else {
+                cell.textContent = value;
+            }
+        }
+
+    </script>
+</body>
+</html>
